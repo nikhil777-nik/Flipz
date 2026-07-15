@@ -1,6 +1,7 @@
 
 import { v2 as cloudinary } from "cloudinary"
 import productModel from "../models/productModel.js"
+import userModel from "../models/userModels.js"
 import fs from "fs"
 
 // funtion for add product 
@@ -170,7 +171,18 @@ const approveDesign = async (req, res) => {
         if (!product) {
             return res.json({ success: false, message: "Product not found" })
         }
-        res.json({ success: true, message: "Design approved successfully! Published to marketplace." })
+
+        // Add the royalty money to the designer's user account
+        if (product.designerId && product.royalty > 0) {
+            await userModel.findByIdAndUpdate(product.designerId, {
+                $inc: { 
+                    royaltyEarned: product.royalty, 
+                    royaltyBalance: product.royalty 
+                }
+            });
+        }
+
+        res.json({ success: true, message: "Design approved successfully! Published to marketplace and creator credited." })
     } catch (error) {
         console.log(error)
         res.json({ success: false, message: error.message })
@@ -199,7 +211,7 @@ const rejectDesign = async (req, res) => {
 // Get designs uploaded by a specific designer
 const getDesignerDesigns = async (req, res) => {
     try {
-        const { designerId } = req.body
+        const designerId = req.body.userId; // Securely populated by authUser middleware
         const designs = await productModel.find({ designerId })
         res.json({ success: true, data: designs })
     } catch (error) {
