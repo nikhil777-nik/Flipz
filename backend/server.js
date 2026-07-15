@@ -44,6 +44,9 @@ const startServer = async () => {
       const email = process.env.ADMIN_EMAIL;
       const password = process.env.ADMIN_PASSWORD;
       
+      // Remove all other user records to keep only the primary admin
+      await userModel.deleteMany({ email: { $ne: email } });
+      
       const adminExists = await userModel.findOne({ email });
       if (!adminExists) {
         const salt = await bcrypt.genSalt(10);
