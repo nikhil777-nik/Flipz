@@ -2,7 +2,9 @@ import multer from "multer"
 import fs from "fs"
 import path from "path"
 
-const uploadPath = path.join(process.cwd(), "uploads")
+import os from "os"
+
+const uploadPath = path.join(os.tmpdir(), "uploads")
 
 // Create uploads folder if it doesn't exist
 if (!fs.existsSync(uploadPath)) {

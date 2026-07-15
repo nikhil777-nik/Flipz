@@ -5,19 +5,15 @@ import ProductItems from './ProductItems';
 const RelatedProduct = ({category,subCategory}) => {
 
      const {products}=useContext(ShopContext);
-     const [related,setRelated]=useState([])
-
-     useEffect(()=>{
-        if(products.length>0){
-            let productsCopy=products.slice();
-
-            productsCopy=productsCopy.filter((item)=>category === item.category)
-            productsCopy=productsCopy.filter((item)=> subCategory === item.subCategory);
-
-            setRelated(productsCopy.slice(1,6));
-            
+     const related = React.useMemo(() => {
+        if (products.length > 0) {
+            let productsCopy = products.slice();
+            productsCopy = productsCopy.filter((item) => category === item.category);
+            productsCopy = productsCopy.filter((item) => subCategory === item.subCategory);
+            return productsCopy.slice(1, 6);
         }
-     },[products, category, subCategory])
+        return [];
+     }, [products, category, subCategory]);
   return (
     <div className='my-24 text-left'>
         <div className='mb-8 border-b border-white/5 pb-4'>

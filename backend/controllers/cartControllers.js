@@ -51,7 +51,14 @@ const updateCart = async (req, res) => {
       });
     }
 
-    cartData[itemId][size] = quantity;
+    if (quantity <= 0) {
+      delete cartData[itemId][size];
+      if (Object.keys(cartData[itemId]).length === 0) {
+        delete cartData[itemId];
+      }
+    } else {
+      cartData[itemId][size] = quantity;
+    }
 
     await userModel.findByIdAndUpdate(userId, { cartData });
 
