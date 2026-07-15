@@ -44,7 +44,7 @@ const addProducts = async (req, res) => {
 const listProducts = async (req, res) => {
     try {
         const { showAll } = req.query;
-        let query = { isApproved: true };
+        let query = { isApproved: { $ne: false } };
         if (showAll === "true") {
             query = {};
         }
