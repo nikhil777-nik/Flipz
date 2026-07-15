@@ -32,45 +32,42 @@ app.get('/', (req, res) => {
 
 
 
+import bcrypt from 'bcrypt';
+import userModel from './models/userModels.js';
+
 // ✅ Start server ONLY after DB + Cloudinary connect
+const autoSeedAdmin = async () => {
+  try {
+    const adminEmail = "admin@ecommerce.com";
+    const adminExists = await userModel.findOne({ email: adminEmail });
+    if (!adminExists) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash("admin123", salt);
+      const newAdmin = new userModel({
+        name: "System Admin",
+        email: adminEmail,
+        password: hashedPassword,
+        role: "admin"
+      });
+      await newAdmin.save();
+      console.log("✅ Admin user seeded in MongoDB successfully!");
+    } else {
+      if (adminExists.role !== 'admin') {
+        adminExists.role = 'admin';
+        await adminExists.save();
+        console.log("✅ Existing admin user role verified/restored in MongoDB!");
+      }
+    }
+  } catch (error) {
+    console.log("❌ Admin seeding error:", error);
+  }
+};
+
 const startServer = async () => {
   try {
     await connectDB();
-
-    // Auto-seed default admin credentials in MongoDB
-    try {
-      const userModel = (await import('./models/userModels.js')).default;
-      const bcrypt = (await import('bcrypt')).default;
-      const email = process.env.ADMIN_EMAIL;
-      const password = process.env.ADMIN_PASSWORD;
-      
-      // Remove all other user records to keep only the primary admin
-      await userModel.deleteMany({ email: { $ne: email } });
-      
-      const adminExists = await userModel.findOne({ email });
-      if (!adminExists) {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        const newAdmin = new userModel({
-          name: "Sowmith Admin",
-          email: email,
-          password: hashedPassword,
-          role: "admin"
-        });
-        await newAdmin.save();
-        console.log("👑 Default admin user seeded successfully in MongoDB!");
-      } else {
-        if (adminExists.role !== 'admin') {
-          adminExists.role = 'admin';
-          await adminExists.save();
-          console.log("👑 Updated existing user role to admin.");
-        }
-      }
-    } catch (err) {
-      console.error("❌ Error seeding admin user:", err);
-    }
-
     await connectCloudinary();
+    await autoSeedAdmin();
 
     app.listen(port, () => {
       console.log("✅ Server started on PORT:", port);

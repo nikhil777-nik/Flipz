@@ -80,23 +80,28 @@ const adminlogin = async (req, res) => {
     try {
         const { email, password } = req.body;
         
-        // 1. Try env variable fallback
-        if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-            const token = jwt.sign(email + password, process.env.JWT_SECRET);
-            return res.json({ success: true, token });
-        }
-        
-        // 2. Try MongoDB credentials database lookup
+        // 1. Try finding the admin user in MongoDB first
         const user = await userModel.findOne({ email });
-        if (user && user.role === 'admin') {
+        if (user) {
+            if (user.role !== 'admin') {
+                return res.json({ success: false, message: "Not authorized as admin" });
+            }
             const isMatch = await bcrypt.compare(password, user.password);
             if (isMatch) {
-                const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+                const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET);
                 return res.json({ success: true, token });
+            } else {
+                return res.json({ success: false, message: "Invalid credentials" });
             }
         }
-        
-        res.json({ success: false, message: "Invalid credentials" });
+
+        // 2. Fallback to env variables (Legacy path)
+        if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+            const token = jwt.sign(email + password, process.env.JWT_SECRET);
+            res.json({ success: true, token });
+        } else {
+            res.json({ success: false, message: "Invalid credentials" });
+        }
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: error.message });
