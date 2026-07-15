@@ -24,7 +24,7 @@ const Verify = () => {
 
         const verifyPayment = async () => {
             try {
-                const res = await axios.post(
+                 const res = await axios.post(
                     `${backendUrl}/api/order/verifyStripe`,
                     { success, orderId },
                     { headers: { token } }
