@@ -7,7 +7,9 @@ const userSchema =new mongoose.Schema({
     cartData:{type:Object,default:{}},
     royaltyEarned:{type:Number,default:0},
     royaltyBalance:{type:Number,default:0},
-    role:{type:String,default:'user',enum:['user','admin']}
+    role:{type:String,default:'user',enum:['user','admin']},
+    resetPasswordToken:{type:String,default:''},
+    resetPasswordExpires:{type:Date}
 },{minimize:false})
 
 const userModel=mongoose.models.user || mongoose.model('user',userSchema);
