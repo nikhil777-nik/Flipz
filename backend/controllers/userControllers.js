@@ -79,12 +79,24 @@ const registeruser =async(req,res)=>{
 const adminlogin = async (req, res) => {
     try {
         const { email, password } = req.body;
+        
+        // 1. Try env variable fallback
         if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
             const token = jwt.sign(email + password, process.env.JWT_SECRET);
-            res.json({ success: true, token });
-        } else {
-            res.json({ success: false, message: "Invalid credentials" });
+            return res.json({ success: true, token });
         }
+        
+        // 2. Try MongoDB credentials database lookup
+        const user = await userModel.findOne({ email });
+        if (user && user.role === 'admin') {
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (isMatch) {
+                const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+                return res.json({ success: true, token });
+            }
+        }
+        
+        res.json({ success: false, message: "Invalid credentials" });
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: error.message });

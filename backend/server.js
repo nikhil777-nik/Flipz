@@ -36,6 +36,37 @@ app.get('/', (req, res) => {
 const startServer = async () => {
   try {
     await connectDB();
+
+    // Auto-seed default admin credentials in MongoDB
+    try {
+      const userModel = (await import('./models/userModels.js')).default;
+      const bcrypt = (await import('bcrypt')).default;
+      const email = process.env.ADMIN_EMAIL;
+      const password = process.env.ADMIN_PASSWORD;
+      
+      const adminExists = await userModel.findOne({ email });
+      if (!adminExists) {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const newAdmin = new userModel({
+          name: "Sowmith Admin",
+          email: email,
+          password: hashedPassword,
+          role: "admin"
+        });
+        await newAdmin.save();
+        console.log("👑 Default admin user seeded successfully in MongoDB!");
+      } else {
+        if (adminExists.role !== 'admin') {
+          adminExists.role = 'admin';
+          await adminExists.save();
+          console.log("👑 Updated existing user role to admin.");
+        }
+      }
+    } catch (err) {
+      console.error("❌ Error seeding admin user:", err);
+    }
+
     await connectCloudinary();
 
     app.listen(port, () => {
