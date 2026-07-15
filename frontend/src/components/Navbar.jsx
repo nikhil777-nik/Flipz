@@ -44,13 +44,13 @@ const Navbar = () => {
         <div className='group relative'>
           {/* <Link to='/login'> */}
 
-          <img onClick={()=>token?navigate('myprofile'):navigate('/login')}src={assets.profile_icon} className='w-5 cursor-pointer hover:scale-125 transition-transform duration-300' />
+          <img onClick={()=>token?navigate('/myprofile'):navigate('/login')}src={assets.profile_icon} className='w-5 cursor-pointer hover:scale-125 transition-transform duration-300' />
           {/* Dropdown menu */}
     
          {token &&
          <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50 animate-fade-in'>
             <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-white shadow-2xl shadow-indigo-500/20 text-slate-600 rounded-xl border border-indigo-100 backdrop-blur-md'>
-              <p className='cursor-pointer hover:text-gradient-primary font-medium transition-all hover:translate-x-1'>My profile</p>
+              <p onClick={() => navigate('/myprofile')} className='cursor-pointer hover:text-gradient-primary font-medium transition-all hover:translate-x-1'>My profile</p>
               <p onClick={() => navigate('/Orders')} className='cursor-pointer hover:text-gradient-primary font-medium transition-all hover:translate-x-1'>Orders</p>
               <p onClick={logoutHandler} className='cursor-pointer hover:text-gradient-primary font-medium transition-all hover:translate-x-1'>Logout</p>
             </div>

@@ -76,7 +76,6 @@ const registeruser =async(req,res)=>{
 }
 
 // Route for admin login
-
 const adminlogin = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -92,4 +91,19 @@ const adminlogin = async (req, res) => {
     }
 }
 
-export {loginuser,registeruser,adminlogin}
+// Get user profile details
+const getUserProfile = async (req, res) => {
+    try {
+        const { userId } = req.body; // populated by authUser middleware
+        const user = await userModel.findById(userId).select("-password");
+        if (!user) {
+            return res.json({ success: false, message: "User not found" });
+        }
+        res.json({ success: true, user });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
+}
+
+export {loginuser,registeruser,adminlogin,getUserProfile}

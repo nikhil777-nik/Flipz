@@ -13,6 +13,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import SearchBar from './components/SearchBar'
 import Verify from './pages/verify'
+import MyProfile from './pages/MyProfile'
 import { ToastContainer, toast } from 'react-toastify';
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
                <Route path='/place-order' element={<PlaceOrder/>} />
                 <Route path='/Orders' element={<Orders/>} />
                  <Route path='/verify' element={<Verify/>} /> 
+                 <Route path='/myprofile' element={<MyProfile/>} /> 
                 
       </Routes>
       <Footer/>

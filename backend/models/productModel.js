@@ -9,7 +9,12 @@ const productSchema =new mongoose.Schema({
     subCategory: {type:String,required:true},
     sizes:{type:Array,required:true},
     bestseller:{type:Boolean},
-    date:{type:Number,required:true}
+    date:{type:Number,required:true},
+    isApproved:{type:Boolean,default:true},
+    status:{type:String,default:'Approved',enum:['Pending','Approved','Rejected']},
+    royalty:{type:Number,default:0},
+    designerId:{type:String,default:''},
+    designerName:{type:String,default:''}
 })
 
 const productModel = mongoose.models.product || mongoose.model("product",productSchema)
