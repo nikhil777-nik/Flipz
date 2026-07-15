@@ -63,11 +63,26 @@ const autoSeedAdmin = async () => {
   }
 };
 
+const resetAllUserRoyalties = async () => {
+  try {
+    const result = await userModel.updateMany({}, {
+      $set: {
+        royaltyEarned: 0,
+        royaltyBalance: 0
+      }
+    });
+    console.log(`✅ Reset all user money earnings. Modified ${result.modifiedCount} user documents to ₹0.`);
+  } catch (error) {
+    console.log("❌ Error resetting user royalties:", error);
+  }
+};
+
 const startServer = async () => {
   try {
     await connectDB();
     await connectCloudinary();
     await autoSeedAdmin();
+    await resetAllUserRoyalties();
 
     app.listen(port, () => {
       console.log("✅ Server started on PORT:", port);
