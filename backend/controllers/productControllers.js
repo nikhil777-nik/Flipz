@@ -2,6 +2,7 @@
 import { v2 as cloudinary } from "cloudinary"
 import productModel from "../models/productModel.js"
 import userModel from "../models/userModels.js"
+import userDesignModel from "../models/userDesignModel.js"
 import fs from "fs"
 
 // funtion for add product 
@@ -139,7 +140,7 @@ const uploadDesign = async (req, res) => {
             designerName: designerName || "Anonymous Creator"
         }
 
-        const product = new productModel(productdata)
+        const product = new userDesignModel(productdata)
         await product.save()
         res.json({ success: true, message: "Design submitted successfully! Pending admin approval." })
     } catch (error) {
@@ -151,7 +152,7 @@ const uploadDesign = async (req, res) => {
 // Get all pending creator designs
 const getPendingDesigns = async (req, res) => {
     try {
-        const pending = await productModel.find({ status: 'Pending' })
+        const pending = await userDesignModel.find({ status: 'Pending' })
         res.json({ success: true, data: pending })
     } catch (error) {
         console.log(error)
@@ -163,21 +164,42 @@ const getPendingDesigns = async (req, res) => {
 const approveDesign = async (req, res) => {
     try {
         const { productId } = req.body
-        const product = await productModel.findByIdAndUpdate(productId, {
+        
+        // Find and update design in the user_design collection
+        const design = await userDesignModel.findByIdAndUpdate(productId, {
             status: 'Approved',
             isApproved: true
         }, { new: true })
         
-        if (!product) {
-            return res.json({ success: false, message: "Product not found" })
+        if (!design) {
+            return res.json({ success: false, message: "Design not found" })
         }
 
+        // Copy approved design to the main products collection for marketplace listing
+        const approvedProduct = new productModel({
+            name: design.name,
+            description: design.description,
+            price: design.price,
+            image: design.image,
+            category: design.category,
+            subCategory: design.subCategory,
+            sizes: design.sizes,
+            bestseller: design.bestseller,
+            date: Date.now(),
+            isApproved: true,
+            status: 'Approved',
+            royalty: design.royalty,
+            designerId: design.designerId,
+            designerName: design.designerName
+        })
+        await approvedProduct.save()
+
         // Add the royalty money to the designer's user account
-        if (product.designerId && product.royalty > 0) {
-            await userModel.findByIdAndUpdate(product.designerId, {
+        if (design.designerId && design.royalty > 0) {
+            await userModel.findByIdAndUpdate(design.designerId, {
                 $inc: { 
-                    royaltyEarned: product.royalty, 
-                    royaltyBalance: product.royalty 
+                    royaltyEarned: design.royalty, 
+                    royaltyBalance: design.royalty 
                 }
             });
         }
@@ -193,7 +215,7 @@ const approveDesign = async (req, res) => {
 const rejectDesign = async (req, res) => {
     try {
         const { productId } = req.body
-        const product = await productModel.findByIdAndUpdate(productId, {
+        const product = await userDesignModel.findByIdAndUpdate(productId, {
             status: 'Rejected',
             isApproved: false
         }, { new: true })
@@ -212,7 +234,7 @@ const rejectDesign = async (req, res) => {
 const getDesignerDesigns = async (req, res) => {
     try {
         const designerId = req.body.userId; // Securely populated by authUser middleware
-        const designs = await productModel.find({ designerId })
+        const designs = await userDesignModel.find({ designerId })
         res.json({ success: true, data: designs })
     } catch (error) {
         console.log(error)
