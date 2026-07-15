@@ -4,10 +4,13 @@ import { Link, NavLink } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext';
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const { setShowSearch, getCartCount, cartItems } = useContext(ShopContext)
-
-  // console.log(getCartCount());
-
+  const { setShowSearch, getCartCount, cartItems,navigate,token,setToken,setCartItems } = useContext(ShopContext)
+  const logoutHandler = ()=>{
+    navigate("/login")
+    localStorage.removeItem("token")
+    setToken("")
+    setCartItems({})
+  }
 
   return (
     <div className='flex items-center justify-between py-5 font-medium'>
@@ -39,14 +42,21 @@ const Navbar = () => {
         <img onClick={() => setShowSearch(true)} src={assets.search_icon} className='w-5 cursor-pointer' alt='' />
 
         <div className='group relative'>
-          <Link to='/login'><img src={assets.profile_icon} className='w-5 cursor-pointer hover:scale-125 transition-transform duration-300' /></Link>
-          <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50 animate-fade-in'>
+          {/* <Link to='/login'> */}
+
+          <img onClick={()=>token?navigate('myprofile'):navigate('/login')}src={assets.profile_icon} className='w-5 cursor-pointer hover:scale-125 transition-transform duration-300' />
+          {/* Dropdown menu */}
+    
+         {token &&
+         <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50 animate-fade-in'>
             <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-white shadow-2xl shadow-indigo-500/20 text-slate-600 rounded-xl border border-indigo-100 backdrop-blur-md'>
               <p className='cursor-pointer hover:text-gradient-primary font-medium transition-all hover:translate-x-1'>My profile</p>
-              <p className='cursor-pointer hover:text-gradient-primary font-medium transition-all hover:translate-x-1'>Orders</p>
-              <p className='cursor-pointer hover:text-gradient-primary font-medium transition-all hover:translate-x-1'>Logout</p>
+              <p onClick={() => navigate('/Orders')} className='cursor-pointer hover:text-gradient-primary font-medium transition-all hover:translate-x-1'>Orders</p>
+              <p onClick={logoutHandler} className='cursor-pointer hover:text-gradient-primary font-medium transition-all hover:translate-x-1'>Logout</p>
             </div>
           </div>
+         }
+
         </div>
         <Link to='/cart' className='relative hover:scale-110 transition-transform'>
           <img src={assets.cart_icon} alt="" className='w-5 min-w-5' />

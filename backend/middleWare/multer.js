@@ -1,12 +1,23 @@
 import multer from "multer"
+import fs from "fs"
+import path from "path"
+
+const uploadPath = path.join(process.cwd(), "uploads")
+
+// Create uploads folder if it doesn't exist
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true })
+}
 
 const storage = multer.diskStorage({
-    filename:function(req,file,callback){
-        callback(null,`${Date.now()}-${file.originalname}`)
-    }
+  destination: function (req, file, cb) {
+    cb(null, uploadPath)
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}-${file.originalname}`)
+  }
 })
 
+const upload = multer({ storage })
 
-const upload = multer({storage})
-
-export default upload 
+export default upload

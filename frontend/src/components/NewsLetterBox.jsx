@@ -1,24 +1,47 @@
 import React from 'react'
+import { Mail, Sparkles } from 'lucide-react'
+import { toast } from 'react-toastify'
 
 const NewsLetterBox = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    toast.success('Subscribed successfully! Check your inbox for exclusive early drops.');
   }
 
-
   return (
-    <div className='text-center animate-fade-in my-16'>
-      <p className='text-3xl font-bold text-slate-800 tracking-tight'>Subscribe now & get 20% off</p>
-      <p className='text-slate-500 mt-3 max-w-xl mx-auto'>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry
-      </p>
-      <form onSubmit={onSubmitHandler} className='w-full sm:w-1/2 flex items-center gap-3 mx-auto my-6 border-2 border-slate-200 rounded-full overflow-hidden pl-5 bg-white focus-within:border-indigo-400 focus-within:shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:shadow-lg transition-all duration-300'>
-        <input className="w-full sm:flex-1 outline-none text-slate-700 bg-transparent py-4 font-medium" type='email' placeholder='Enter your email' required />
-        <button type='submit' className='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:scale-105 active:scale-95 text-white text-sm px-12 py-5 transition-transform duration-300 h-full font-bold tracking-widest shadow-[0_0_15px_rgba(236,72,153,0.5)] animate-gradient bg-[length:200%_auto]'>
-          SUBSCRIBE
-        </button>
-      </form>
+    <div className='my-24 bg-glass border border-white/5 rounded-[28px] p-8 md:p-12 text-center max-w-4xl mx-auto relative overflow-hidden shadow-2xl'>
+      <div className='absolute -left-20 -top-20 w-48 h-48 bg-accent/10 rounded-full blur-2xl pointer-events-none'></div>
+      <div className='absolute -right-20 -bottom-20 w-48 h-48 bg-accent-cyan/10 rounded-full blur-2xl pointer-events-none'></div>
+      
+      <div className='relative z-10'>
+        <div className='inline-flex items-center gap-1.5 bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full mb-6'>
+          <Mail className='w-3.5 h-3.5 text-accent-cyan' />
+          <span className='text-[10px] font-bold text-gray-300 uppercase tracking-widest font-heading'>VIP newsletter</span>
+        </div>
+
+        <h2 className='text-3xl md:text-4xl font-heading font-extrabold text-white tracking-tight'>
+          Subscribe for Early Drops
+        </h2>
+        <p className='text-gray-400 mt-3 max-w-lg mx-auto font-body text-xs md:text-sm leading-relaxed'>
+          Join our streetwear circle. Get notified of exclusive limited-edition creator collections and flash royalty events before they sell out.
+        </p>
+
+        <form onSubmit={onSubmitHandler} className='w-full sm:max-w-md flex flex-col sm:flex-row items-center gap-3 mx-auto mt-8 p-1.5 border border-white/10 rounded-2xl bg-black/40 focus-within:border-accent transition-all duration-300'>
+          <input 
+            className="w-full sm:flex-1 outline-none text-white bg-transparent py-3 px-3 text-xs md:text-sm font-body font-medium" 
+            type='email' 
+            placeholder='Enter your email address' 
+            required 
+          />
+          <button 
+            type='submit' 
+            className='w-full sm:w-auto bg-white text-black hover:bg-accent-cyan hover:text-black font-heading font-bold text-xs py-3 px-6 rounded-xl transition-all cursor-pointer shadow-lg'
+          >
+            Subscribe
+          </button>
+        </form>
+      </div>
     </div>
   )
 }

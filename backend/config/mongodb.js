@@ -1,13 +1,13 @@
-
-
 import mongoose from "mongoose";
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(`${process.env.MONGODB_URI}/e-commerce`);
-    console.log("DB connected");
+    await mongoose.connect(process.env.MONGODB_URI, {
+      family: 4 // 🔥 important fix for many DNS issues
+    });
+    console.log("✅ MongoDB Connected");
   } catch (error) {
-    console.error("DB connection error:", error.message);
+    console.log("❌ DB Connection Error:", error.message);
     process.exit(1);
   }
 };
