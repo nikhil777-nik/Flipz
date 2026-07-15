@@ -13,6 +13,9 @@ const adminAuth = async (req, res, next) => {
         if (token_decode && token_decode.id) {
             const user = await userModel.findById(token_decode.id);
             if (user && user.role === 'admin') {
+                if (!req.body) {
+                    req.body = {};
+                }
                 req.body.userId = user._id; // set user context info if needed
                 return next();
             }
