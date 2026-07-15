@@ -36,8 +36,13 @@ const MyProfile = () => {
   const [royalty, setRoyalty] = useState("");
   const [uploading, setUploading] = useState(false);
 
-  // Base production cost
-  const baseCost = 499;
+  // Base production cost depending on subcategory: Topwear (800), Bottomwear (1000), Set (1200)
+  const getBaseCost = () => {
+    if (subCategory === "Bottomwear") return 1000;
+    if (subCategory === "Set") return 1200;
+    return 800;
+  };
+  const baseCost = getBaseCost();
   const projectedPrice = royalty ? Number(royalty) + baseCost : baseCost;
 
   // Fetch designer profile stats

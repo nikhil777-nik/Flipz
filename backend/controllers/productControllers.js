@@ -112,8 +112,13 @@ const uploadDesign = async (req, res) => {
             })
         )
 
-        // Calculate dynamic selling price: base cost ₹499 + designer royalty
-        const baseCost = 499;
+        // Calculate dynamic selling price depending on subcategory: Topwear (800), Bottomwear (1000), Set (1200)
+        let baseCost = 800;
+        if (subCategory === "Bottomwear") {
+            baseCost = 1000;
+        } else if (subCategory === "Set") {
+            baseCost = 1200;
+        }
         const calculatedPrice = Number(royalty) + baseCost;
 
         const productdata = {
