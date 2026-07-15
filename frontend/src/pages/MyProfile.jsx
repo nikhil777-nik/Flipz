@@ -435,55 +435,56 @@ const MyProfile = () => {
               <p className="text-xs text-slate-400 mt-1 max-w-xs mx-auto leading-relaxed">Submit your first creation in the Submit tab and start earning royalties!</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-slate-100 text-slate-400 text-xs font-bold uppercase tracking-wider">
-                    <th className="py-4 text-left font-bold">Mockup</th>
-                    <th className="py-4 text-left font-bold">Design Name</th>
-                    <th className="py-4 text-left font-bold">Category</th>
-                    <th className="py-4 text-left font-bold">Royalty</th>
-                    <th className="py-4 text-left font-bold">Final Price</th>
-                    <th className="py-4 text-left font-bold">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {myDesigns.map((design) => (
-                    <tr key={design._id} className="hover:bg-slate-50/50 transition-colors">
-                      <td className="py-4">
-                        <img 
-                          src={design.image?.[0]} 
-                          className="w-12 h-16 object-cover rounded-lg bg-slate-50 border border-slate-100" 
-                          alt="" 
-                        />
-                      </td>
-                      <td className="py-4 font-bold text-slate-800">{design.name}</td>
-                      <td className="py-4 font-semibold text-slate-500">
-                        {design.category} ➔ <span className="text-xs text-slate-400">{design.subCategory}</span>
-                      </td>
-                      <td className="py-4 font-extrabold text-indigo-600">{currency}{design.royalty || 0}</td>
-                      <td className="py-4 font-black text-slate-900">{currency}{design.price}</td>
-                      <td className="py-4">
-                        {design.status === 'Approved' && (
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 border border-emerald-200 text-emerald-700">
-                            <CheckCircle className="w-3.5 h-3.5" /> Approved
-                          </span>
-                        )}
-                        {design.status === 'Pending' && (
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 border border-amber-200 text-amber-700">
-                            <Clock className="w-3.5 h-3.5" /> Pending Approval
-                          </span>
-                        )}
-                        {design.status === 'Rejected' && (
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-50 border border-rose-200 text-rose-700">
-                            <XCircle className="w-3.5 h-3.5" /> Rejected
-                          </span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {myDesigns.map((design) => (
+                <div key={design._id} className="bg-white border border-slate-150 rounded-2xl p-4 shadow-md shadow-slate-100/50 flex gap-4 hover:border-slate-350 transition-all duration-300">
+                  <div className="w-20 aspect-[3/4] bg-slate-50 rounded-xl overflow-hidden border border-slate-100 shadow-sm shrink-0">
+                    <img 
+                      src={design.image?.[0]} 
+                      className="w-full h-full object-cover" 
+                      alt="" 
+                    />
+                  </div>
+                  <div className="flex flex-col justify-between flex-1 text-left min-w-0">
+                    <div className="space-y-1.5 min-w-0">
+                      <span className="text-[9px] font-bold text-indigo-500 bg-indigo-50 px-2 py-0.5 rounded-md uppercase tracking-wider block w-fit">
+                        {design.category} ➔ {design.subCategory}
+                      </span>
+                      <h4 className="font-bold text-slate-800 text-sm truncate">{design.name}</h4>
+                      
+                      <div className="flex justify-between items-center text-[11px] pt-1">
+                        <div>
+                          <p className="text-slate-400 font-medium">Royalty</p>
+                          <p className="font-extrabold text-indigo-600">{currency}{design.royalty || 0}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-slate-400 font-medium">Selling Price</p>
+                          <p className="font-black text-slate-800">{currency}{design.price}</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="pt-2 border-t border-slate-50 flex items-center justify-between">
+                      <span className="text-[10px] font-bold text-slate-400">Status</span>
+                      {design.status === 'Approved' && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 border border-emerald-250 text-emerald-600">
+                          <CheckCircle className="w-3 h-3" /> Approved
+                        </span>
+                      )}
+                      {design.status === 'Pending' && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 border border-amber-250 text-amber-600">
+                          <Clock className="w-3 h-3" /> Pending
+                        </span>
+                      )}
+                      {design.status === 'Rejected' && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 border border-rose-250 text-rose-600">
+                          <XCircle className="w-3 h-3" /> Rejected
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
