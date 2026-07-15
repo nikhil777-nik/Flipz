@@ -255,7 +255,18 @@ const getDesignerDesigns = async (req, res) => {
     }
 }
 
-export { addProducts, listProducts, removeProducts, removeAllProducts, singleProduct, uploadDesign, getPendingDesigns, approveDesign, rejectDesign, getDesignerDesigns }
+// Get all approved creator designs
+const getApprovedDesigns = async (req, res) => {
+    try {
+        const approved = await userDesignModel.find({ status: 'Approved' })
+        res.json({ success: true, data: approved })
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+
+export { addProducts, listProducts, removeProducts, removeAllProducts, singleProduct, uploadDesign, getPendingDesigns, approveDesign, rejectDesign, getDesignerDesigns, getApprovedDesigns }
 
 
 

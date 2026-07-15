@@ -9,7 +9,8 @@ import {
     getPendingDesigns, 
     approveDesign, 
     rejectDesign, 
-    getDesignerDesigns 
+    getDesignerDesigns,
+    getApprovedDesigns
 } from '../controllers/productControllers.js'
 import upload from '../middleWare/multer.js';
 import adminAuth from '../middleWare/adminAuth.js';
@@ -29,5 +30,6 @@ productRouter.get('/pending-designs', adminAuth, getPendingDesigns)
 productRouter.post('/approve-design', adminAuth, approveDesign)
 productRouter.post('/reject-design', adminAuth, rejectDesign)
 productRouter.post('/designer-designs', authUser, getDesignerDesigns)
+productRouter.get('/approved-designs', adminAuth, getApprovedDesigns)
 
 export default productRouter
