@@ -61,8 +61,19 @@ const listProducts = async (req, res) => {
 // funtion for remove product 
 const removeProducts = async (req, res) => {
     try {
-        await productModel.findByIdAndDelete(req.body.id);
-        res.json({success:true,message:"product removed successfully"});
+        const { id } = req.body;
+        // Find the product first to see if it is linked to a user design
+        const product = await productModel.findById(id);
+        if (product) {
+            if (product.userDesignId) {
+                await userDesignModel.findByIdAndDelete(product.userDesignId);
+            }
+            await productModel.findByIdAndDelete(id);
+        } else {
+            // If not found in productModel, check userDesignModel directly (e.g. pending/rejected uploads)
+            await userDesignModel.findByIdAndDelete(id);
+        }
+        res.json({ success: true, message: "Product removed successfully" });
     } catch (error) {
         console.log(error)
         res.json({ success: false, message: error.message })
@@ -72,7 +83,8 @@ const removeProducts = async (req, res) => {
 const removeAllProducts = async (req, res) => {
     try {
         await productModel.deleteMany({});
-        res.json({ success: true, message: "All products removed successfully" });
+        await userDesignModel.deleteMany({});
+        res.json({ success: true, message: "All products and user designs removed successfully" });
     } catch (error) {
         console.log(error)
         res.json({ success: false, message: error.message })
@@ -190,7 +202,8 @@ const approveDesign = async (req, res) => {
             status: 'Approved',
             royalty: design.royalty,
             designerId: design.designerId,
-            designerName: design.designerName
+            designerName: design.designerName,
+            userDesignId: design._id.toString()
         })
         await approvedProduct.save()
 

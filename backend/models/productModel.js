@@ -14,7 +14,8 @@ const productSchema =new mongoose.Schema({
     status:{type:String,default:'Approved',enum:['Pending','Approved','Rejected']},
     royalty:{type:Number,default:0},
     designerId:{type:String,default:''},
-    designerName:{type:String,default:''}
+    designerName:{type:String,default:''},
+    userDesignId:{type:String,default:''}
 })
 
 const productModel = mongoose.models.product || mongoose.model("product",productSchema)
