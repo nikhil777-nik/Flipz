@@ -14,8 +14,8 @@ const Contact = () => {
           <div className='gap-6 flex flex-col justify-center items-start'>
           <p className='font-semibold text-2xl text-gray-600'>Our Store</p>
           <p  className='text-gray-500'>54709 Willms Station <br />Suite 350, Washington, USA</p>
-          <p className='text-gray-500'>Tel: (415) 555-0132 <br />Email: admin@forever.com</p>
-          <p className='text-gray-600 font-semibold text-xl'>Careers at Forever</p>
+          <p className='text-gray-500'>Tel: (415) 555-0132 <br />Email: admin@flipz.com</p>
+          <p className='text-gray-600 font-semibold text-xl'>Careers at Flipz</p>
           <p  className='text-gray-500'>Learn more about our teams and job openings.</p>
           <button className='border border-black px-8 py-4 hover:bg-black hover:text-white transition-all duration-500'>Explore Jobs</button>
           </div>

@@ -23,7 +23,7 @@ const Footer = () => {
           <p className='text-xl font-bold mb-5 text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-indigo-600'>GET IN TOUCH</p>
           <ul className='flex flex-col gap-3 text-slate-600 font-medium'>
             <li className='cursor-pointer hover:text-pink-600 transition-colors hover:-translate-y-1 transform duration-300 w-max'>+1-212-456-7890</li>
-            <li className='cursor-pointer hover:text-pink-600 transition-colors hover:-translate-y-1 transform duration-300 w-max'>contactus@foreveryou.com</li>
+            <li className='cursor-pointer hover:text-pink-600 transition-colors hover:-translate-y-1 transform duration-300 w-max'>contactus@flipz.com</li>
           </ul>
         </div>
       </div>
