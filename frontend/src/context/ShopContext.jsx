@@ -126,6 +126,11 @@ const ShopContextProvider = (props) =>{
             const res = await axios.get(`${backendUrl}/api/cart/get`, { headers: { token } })
             if (res.data.success) {
                 setCartItems(res.data.cartData || {})
+            } else {
+                // Token is invalid/stale (e.g., after database wipe/reseeding), clear it
+                setToken('');
+                setCartItems({});
+                localStorage.removeItem('token');
             }
         } catch (error) {
             console.log(error)

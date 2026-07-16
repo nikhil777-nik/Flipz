@@ -151,11 +151,10 @@ sortProduct()
             <option value="high-low">Sort by: High To Low</option>
           </select>
         </div>
-        {/* Map Products */}
         <div className='grid grid-col-2 md:grid lg:grid-cols-4 gap-4 gap-y-6'>
           {
             filterProduct.map((item,index)=>(
-              <ProductItems key={index} name={item.name} id={item._id} price={item.price} image={item.image}/>
+              <ProductItems key={index} name={item.name} id={item._id} price={item.price} image={item.image} designerName={item.designerName}/>
             ))
           }
 

@@ -150,12 +150,22 @@ const MyProfile = () => {
     <div className="pt-8 text-left max-w-6xl mx-auto pb-20 animate-fade-in">
       
       {/* Page Title */}
-      <div className="mb-8 border-b border-slate-100 pb-4">
-        <h2 className="text-2xl font-heading font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
-          <Compass className="w-6 h-6 text-indigo-500 animate-pulse" />
-          Designer <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-500">Royalty Dashboard</span>
-        </h2>
-        <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-1">Creator Hub & Passive Income Manager</p>
+      <div className="mb-8 border-b border-slate-100 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h2 className="text-2xl font-heading font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
+            <Compass className="w-6 h-6 text-indigo-500 animate-pulse" />
+            Designer <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-500">Royalty Dashboard</span>
+          </h2>
+          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-1">Creator Hub & Passive Income Manager</p>
+        </div>
+        
+        {userProfile && (
+          <div className="bg-slate-50 border border-slate-150 px-4 py-2.5 rounded-2xl flex flex-col text-slate-700">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-500">Active Profile</span>
+            <span className="text-sm font-extrabold text-slate-800 mt-0.5">{userProfile.name}</span>
+            <span className="text-[11px] text-slate-400 font-semibold">{userProfile.email}</span>
+          </div>
+        )}
       </div>
 
       {/* Analytics Cards Row */}
