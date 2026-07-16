@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 const Home = () => {
   const { products } = useContext(ShopContext);
   const [activeTab, setActiveTab] = useState('shop'); // 'shop' | 'creator'
-  const [activeSubTab, setActiveSubTab] = useState('new'); // 'new' | 'bestseller' | 'men' | 'women' | 'kids' | 'seasonal'
+  const [activeSubTab, setActiveSubTab] = useState('bestseller'); // 'new' | 'bestseller' | 'men' | 'women' | 'kids' | 'seasonal'
 
   // Filter official products (no designer)
   const officialProducts = useMemo(() => {
