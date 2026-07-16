@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Mail, Sparkles } from 'lucide-react'
 import { toast } from 'react-toastify'
 
 const NewsLetterBox = () => {
+  const [email, setEmail] = useState('')
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     toast.success('Subscribed successfully! Check your inbox for exclusive early drops.');
+    setEmail('');
   }
 
   return (
@@ -32,6 +34,8 @@ const NewsLetterBox = () => {
             className="w-full sm:flex-1 outline-none text-white bg-transparent py-3 px-3 text-xs md:text-sm font-body font-medium" 
             type='email' 
             placeholder='Enter your email address' 
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required 
           />
           <button 
