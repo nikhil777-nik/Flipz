@@ -7,7 +7,11 @@ const Footer = () => {
       <div className='absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-gradient bg-[length:200%_auto]'></div>
       <div className='flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 mb-10 text-sm relative z-10'>
         <div>
-          <img src={assets.logo} className="mb-5 w-32 drop-shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer" alt="" />
+          <div className="mb-5 hover:scale-105 transition-transform duration-300 cursor-pointer w-max">
+            <span className="font-heading font-black text-2xl tracking-tighter text-slate-800 uppercase flex items-center select-none">
+              Flipz<span className="text-pink-500 font-extrabold text-3xl leading-none ml-0.5">.</span>
+            </span>
+          </div>
           <p className='w-full md:w-2/3 text-slate-600 leading-relaxed'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
         </div>
         <div>

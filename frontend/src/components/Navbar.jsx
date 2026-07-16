@@ -14,8 +14,10 @@ const Navbar = () => {
 
   return (
     <div className='flex items-center justify-between py-5 font-medium'>
-      <Link to="/">
-        <img src={assets.logo} className='w-36' alt="" />
+      <Link to="/" className="flex items-center">
+        <span className="font-heading font-black text-2xl tracking-tighter text-slate-800 uppercase flex items-center select-none">
+          Flipz<span className="text-pink-500 font-extrabold text-3xl leading-none ml-0.5">.</span>
+        </span>
       </Link>
 
       <ul className='hidden sm:flex gap-5 text-sm text-slate-800 font-bold tracking-wide'>
