@@ -19,7 +19,7 @@ const Hero = () => {
         </div>
       </div>
       <div className='w-full sm:w-1/2 overflow-hidden relative z-10 bg-slate-50'>
-        <img className="w-full h-full object-cover animate-float hover:scale-110 transition-transform duration-700" src="https://londonsockcompany.com/cdn/shop/articles/celebrity-sock-style-tom-hiddleston-541092.jpg?crop=center&height=1200&v=1730297297&width=1200" />
+        <img className="w-full h-full object-cover animate-float hover:scale-110 transition-transform duration-700" src="https://i.pinimg.com/736x/ab/55/b9/ab55b915b657342c1f7ed4f2c9383739.jpg" />
       </div>
     </div>
   )
