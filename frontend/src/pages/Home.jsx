@@ -104,7 +104,7 @@ const Home = () => {
       <Hero />
       
       {/* Premium Sticky Toggle Bar */}
-      <div className="sticky top-0 z-40 py-4 bg-white/80 backdrop-blur-md border-b border-slate-100/50 -mx-4 px-4 sm:-mx-[5vw] sm:px-[5vw] md:-mx-[7vw] md:px-[7vw] lg:-mx-[9vw] lg:px-[9vw] flex justify-center transition-all duration-300">
+      <div className="sticky top-0 z-40 py-4 bg-white border-b border-slate-100/80 -mx-4 px-4 sm:-mx-[5vw] sm:px-[5vw] md:-mx-[7vw] md:px-[7vw] lg:-mx-[9vw] lg:px-[9vw] flex justify-center transition-all duration-300 shadow-sm shadow-slate-100/40">
         <div className="bg-slate-100/90 backdrop-blur-xl border border-slate-200/60 rounded-2xl p-1 flex items-center justify-between shadow-[0_10px_25px_rgba(0,0,0,0.04)] relative max-w-md w-full">
           <button 
             onClick={() => setActiveTab('shop')} 
