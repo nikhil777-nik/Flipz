@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 const Home = () => {
   const { products } = useContext(ShopContext);
   const [activeTab, setActiveTab] = useState('shop'); // 'shop' | 'creator'
-  const [activeSubTab, setActiveSubTab] = useState('bestseller'); // 'new' | 'bestseller' | 'men' | 'women' | 'kids' | 'seasonal'
+  const [activeSubTab, setActiveSubTab] = useState('bestseller'); // 'new' | 'bestseller' | 'men' | 'women' | 'kids'
 
   // Filter official products (no designer)
   const officialProducts = useMemo(() => {
@@ -39,13 +39,7 @@ const Home = () => {
         return officialProducts.filter(item => item.category === 'Women');
       case 'kids':
         return officialProducts.filter(item => item.category === 'Gen alpha');
-      case 'seasonal':
-        return officialProducts.filter(item => 
-          item.subCategory === 'Set' || 
-          item.name.toLowerCase().includes('linen') || 
-          item.name.toLowerCase().includes('cotton') || 
-          item.price > 1200
-        ).slice(0, 10);
+
       default:
         return officialProducts.slice(0, 10);
     }
@@ -84,12 +78,7 @@ const Home = () => {
           title2: 'COLLECTION',
           desc: 'Durable, ultra-comfortable, and stylish street apparel made for the next generation of style creators.'
         };
-      case 'seasonal':
-        return {
-          title1: 'SEASONAL',
-          title2: 'CURATIONS',
-          desc: 'Handpicked selections tailored for the current season, from light cotton layouts to heavy comfort wear.'
-        };
+
       default:
         return {
           title1: 'LATEST',
@@ -154,8 +143,7 @@ const Home = () => {
                   { id: 'bestseller', label: '🔥 Best Sellers' },
                   { id: 'men', label: "🧔 Men's" },
                   { id: 'women', label: "👩 Women's" },
-                  { id: 'kids', label: '🧸 Kids' },
-                  { id: 'seasonal', label: '🍂 Seasonal' }
+                  { id: 'kids', label: '🧸 Kids' }
                 ].map(tab => (
                   <button
                     key={tab.id}
