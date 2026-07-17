@@ -12,6 +12,9 @@ import orderRouter from './routes/orderRoute.js';
 const app = express();
 const port = process.env.PORT || 4000;
 
+// Initialize Cloudinary config
+connectCloudinary();
+
 // 🔥 DEBUG (keep this temporarily)
 console.log("MONGO URI:", process.env.MONGODB_URI);
 console.log("RAZORPAY ID Loaded:", process.env.RAZORPAY_KEY_ID ? "YES" : "NO");
@@ -19,6 +22,16 @@ console.log("RAZORPAY ID Loaded:", process.env.RAZORPAY_KEY_ID ? "YES" : "NO");
 // MIDDLEWARES
 app.use(express.json());
 app.use(cors());
+
+// Database connection middleware for serverless/Vercel environments
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Database connection failed: " + error.message });
+  }
+});
 
 // API endpoints
 app.use('/api/user', userRouter);
@@ -63,22 +76,25 @@ const autoSeedAdmin = async () => {
   }
 };
 
-const startServer = async () => {
-  try {
-    await connectDB();
-    await connectCloudinary();
-    await autoSeedAdmin();
+// ✅ Start server locally or in non-serverless environments
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  const startServer = async () => {
+    try {
+      await connectDB();
+      await autoSeedAdmin();
 
-    app.listen(port, () => {
-      console.log("✅ Server started on PORT:", port);
-    });
+      app.listen(port, () => {
+        console.log("✅ Server started locally on PORT:", port);
+      });
 
-  } catch (error) {
-    console.log("❌ Startup Error:", error);
-  }
-};
-
-// ✅ CALL the function
-startServer(); 
+    } catch (error) {
+      console.log("❌ Startup Error:", error);
+    }
+  };
+  startServer();
+} else {
+  // On serverless Vercel, auto-seed admin on demand (non-blocking)
+  connectDB().then(() => autoSeedAdmin()).catch(err => console.log("❌ Seeding failed:", err));
+}
 
 export default app;
