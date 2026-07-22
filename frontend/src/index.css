@@ -1,90 +1,179 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Prata&display=swap');
+@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Unbounded:wght@700;800;900&family=Orbitron:wght@700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800;900&family=Space+Mono:wght@400;700&display=swap');
 @import "tailwindcss";
 
-a.active hr{
-display: block;
-}
-
-
-*{
-font-family: Outfit;
-}
-.prata-regular {
-  font-family: "Prata", serif;
-  font-weight: 400;
+/* Fallback @font-face definitions for PP Neue Montreal */
+@font-face {
+  font-family: 'PP Neue Montreal';
   font-style: normal;
+  font-weight: 400;
+  src: local('PP Neue Montreal'), local('Neue Montreal'), url('https://fonts.cdnfonts.com/s/100431/ppneuemontreal-book.woff') format('woff');
 }
-::-webkit-scrollbar{
-  display: none
+@font-face {
+  font-family: 'PP Neue Montreal';
+  font-style: normal;
+  font-weight: 500;
+  src: local('PP Neue Montreal'), local('Neue Montreal'), url('https://fonts.cdnfonts.com/s/100431/ppneuemontreal-medium.woff') format('woff');
 }
-@media (max-width:640px){
-    a.active{
-        background-color: black;
-        color: white;
-    }
+@font-face {
+  font-family: 'PP Neue Montreal';
+  font-style: normal;
+  font-weight: 700;
+  src: local('PP Neue Montreal'), local('Neue Montreal'), url('https://fonts.cdnfonts.com/s/100431/ppneuemontreal-bold.woff') format('woff');
 }
 
+@font-face {
+  font-family: 'Neue Montreal';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PP Neue Montreal'), local('Neue Montreal'), url('https://fonts.cdnfonts.com/s/100431/ppneuemontreal-book.woff') format('woff');
+}
+@font-face {
+  font-family: 'Neue Montreal';
+  font-style: normal;
+  font-weight: 500;
+  src: local('PP Neue Montreal'), local('Neue Montreal'), url('https://fonts.cdnfonts.com/s/100431/ppneuemontreal-medium.woff') format('woff');
+}
+@font-face {
+  font-family: 'Neue Montreal';
+  font-style: normal;
+  font-weight: 700;
+  src: local('PP Neue Montreal'), local('Neue Montreal'), url('https://fonts.cdnfonts.com/s/100431/ppneuemontreal-bold.woff') format('woff');
+}
 
+html {
+  scroll-behavior: smooth;
+}
+
+/* Default Body Font for Project (Outfit) */
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #FAFAFB;
+  color: #0F172A;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* NEUE MONTREAL STRICTLY FOR HEADINGS (and all heading elements/children) */
+h1, h2, h3, h4, h5, h6,
+h1 *, h2 *, h3 *, h4 *, h5 *, h6 *,
+.font-heading, .font-heading *,
+.font-montreal, .font-montreal *,
+.font-neue, .font-neue *,
+.font-editorial, .font-editorial *,
+.font-proxemic, .font-proxemic *,
+.font-inertia, .font-inertia *,
+.font-droid, .font-droid *,
+.prata-regular, .prata-regular * {
+  font-family: 'PP Neue Montreal', 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width:640px) {
+  a.active {
+    background-color: black;
+    color: white;
+  }
+}
 
 @keyframes fadeIn {
-  from{
+  from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(15px);
   }
-
-  to{
+  to {
     opacity: 1;
-    transform: translate(0);
-  }
-}
-
-@keyframes gradientX {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
+    transform: translateY(0);
   }
 }
 
 @keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-
-  100% {
-    transform: translateY(0px);
-  }
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-gradient {
-  animation: gradientX 3s ease infinite;
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-float {
-  animation: float 4s ease-in-out infinite;
+  animation: float 5s ease-in-out infinite;
 }
 
-.bg-gradient-primary {
-  background-image: linear-gradient(to right, #6366f1, #d946ef, #f43f5e);
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
 }
 
-.text-gradient-primary {
-  background-image: linear-gradient(to right, #6366f1, #d946ef, #f43f5e);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
+/* Design System Typography Utilities */
+.font-proxemic {
+  font-family: 'PP Neue Montreal', 'Neue Montreal', sans-serif !important;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+
+.font-inertia {
+  font-family: 'PP Neue Montreal', 'Neue Montreal', sans-serif !important;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.font-droid {
+  font-family: 'PP Neue Montreal', 'Neue Montreal', sans-serif !important;
+  letter-spacing: 0.18em;
+  font-weight: 900;
+}
+
+.font-display {
+  font-family: 'PP Neue Montreal', 'Neue Montreal', sans-serif !important;
+  letter-spacing: -0.04em;
+}
+
+.font-editorial {
+  font-family: 'PP Neue Montreal', 'Neue Montreal', sans-serif !important;
+}
+
+.font-sans-editorial {
+  font-family: 'Outfit', sans-serif;
+}
+
+.font-mono-tag {
+  font-family: 'Space Mono', monospace;
+}
+
+/* Chamfered Cut-Corner Octagonal Polygon Masks */
+.clip-chamfer {
+  clip-path: polygon(28px 0, calc(100% - 28px) 0, 100% 28px, 100% calc(100% - 28px), calc(100% - 28px) 100%, 28px 100%, 0 calc(100% - 28px), 0 28px);
+}
+
+.clip-chamfer-lg {
+  clip-path: polygon(42px 0, calc(100% - 42px) 0, 100% 42px, 100% calc(100% - 42px), calc(100% - 42px) 100%, 42px 100%, 0 calc(100% - 42px), 0 42px);
+}
+
+.clip-chamfer-sm {
+  clip-path: polygon(18px 0, calc(100% - 18px) 0, 100% 18px, 100% calc(100% - 18px), calc(100% - 18px) 100%, 18px 100%, 0 calc(100% - 18px), 0 18px);
+}
+
+/* Luxury Liquid Glass Capsule Menu */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.liquid-glass:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }

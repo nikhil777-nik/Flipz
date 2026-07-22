@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/assets';
 import RelatedProduct from '../components/RelatedProduct';
+import { ShoppingBag, Star, ShieldCheck, RefreshCw, Truck } from 'lucide-react';
 
 const Product = () => {
 
@@ -11,6 +12,7 @@ const Product = () => {
   const [productData, setProductData] = useState(false)
   const [image, setImage] = useState("")
   const [size, setSize] = useState("")
+  const [activeTab, setActiveTab] = useState('description')
 
   const fetchProductData = () => {
     const item = products.find((p) => p._id === productId);
@@ -25,77 +27,192 @@ const Product = () => {
   }, [productId, products])
 
   return productData ? (
-    <div className=' border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100'>
-      {/* --------------product Data------------*/}
-      <div className='flex sm:gap-12 flex-col gap-12  sm:flex-row'>
-        {/* --------------product Image------------*/}
-        <div className='flex-1 flex flex-col-reverse gap-3 sm:flex-row' >
-          <div className='flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full'>
-            {
-              productData.image.map((item, index) => (
-                <img onClick={() => setImage(item)} src={item} key={index} className=' w-[24%] sm:w-full sm:mb-3 shrink-0 cursor-pointer' />
-              ))
-            }
+    <div className='border-t border-slate-100 pt-8 font-sans-editorial animate-fade-in space-y-16'>
+      {/* Product Main Container */}
+      <div className='flex flex-col lg:flex-row gap-10 lg:gap-14 items-start'>
+        
+        {/* Product Image Gallery Left */}
+        <div className='w-full lg:w-1/2 flex flex-col-reverse sm:flex-row gap-4'>
+          {/* Thumbnails */}
+          <div className='flex sm:flex-col overflow-x-auto sm:overflow-y-auto gap-3 sm:w-24 shrink-0 no-scrollbar'>
+            {productData.image.map((item, index) => (
+              <div 
+                key={index}
+                onClick={() => setImage(item)}
+                className={`w-20 sm:w-full aspect-square rounded-xl overflow-hidden bg-slate-50 border cursor-pointer transition-all ${
+                  image === item ? 'border-orange-500 ring-2 ring-orange-500/20' : 'border-slate-200/80 hover:border-slate-300'
+                }`}
+              >
+                <img src={item} alt="" className='w-full h-full object-cover' />
+              </div>
+            ))}
           </div>
-          <div className='w-full sm:w-[80%]'>
-            <img src={image} className=" w-full h-auto" alt="" />
+
+          {/* Featured Large Image */}
+          <div className='flex-1 rounded-3xl bg-white border border-slate-200/80 p-3 shadow-sm overflow-hidden aspect-[3/4] flex items-center justify-center relative group'>
+            {productData.designerName && (
+              <div className="absolute top-4 left-4 z-20 bg-slate-950/85 backdrop-blur-md text-white text-[9px] font-mono-tag font-bold tracking-widest px-3 py-1.5 uppercase rounded-full shadow-md">
+                <span>✦ CREATOR DROP</span>
+              </div>
+            )}
+            <img src={image} className="w-full h-full object-contain rounded-2xl group-hover:scale-105 transition-transform duration-700" alt={productData.name} />
           </div>
         </div>
-        {/* --------------product Info------------*/}
-        <div className='flex-1'>
-          <h1 className='font-medium text-2xl mt-2'>{productData.name}</h1>
-          <div className='flex items-center gap-1 mt-2'>
-            <img src={assets.star_icon} alt="" className='w-3 5' />
-            <img src={assets.star_icon} alt="" className='w-3 5' />
-            <img src={assets.star_icon} alt="" className='w-3 5' />
-            <img src={assets.star_dull_icon} alt="" className='w-3 5' />
-            <p className='pl-2'>122</p>
+
+        {/* Product Info Right */}
+        <div className='w-full lg:w-1/2 space-y-6'>
+          <div>
+            <div className="text-[10px] font-mono-tag font-bold text-slate-400 tracking-[0.25em] uppercase mb-2">
+              {productData.category} / {productData.subCategory}
+            </div>
+            <h1 className='font-heading text-3xl sm:text-4xl font-extrabold text-slate-950 leading-tight'>
+              {productData.name}
+            </h1>
+            
+            {/* Rating */}
+            <div className='flex items-center gap-2 mt-3 text-xs text-slate-500 font-medium'>
+              <div className="flex items-center text-amber-400">
+                <Star className="w-4 h-4 fill-current" />
+                <Star className="w-4 h-4 fill-current" />
+                <Star className="w-4 h-4 fill-current" />
+                <Star className="w-4 h-4 fill-current" />
+                <Star className="w-4 h-4 fill-current opacity-40" />
+              </div>
+              <span className="font-bold text-slate-800">4.8</span>
+              <span>(122 verified reviews)</span>
+            </div>
           </div>
-          <p className='mt-5 text-3xl font-medium'>{currency}{productData.price}</p>
-          <p className='mt-5 text-gray-500 md:w-4/5'>{productData.description}</p>
-          <div className='flex flex-col gap-4 my-8'>
-            <p>
-              Select Size
+
+          {/* Price */}
+          <div className='pt-2 border-t border-slate-100'>
+            <p className='font-heading text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight'>
+              {currency}{productData.price}
             </p>
-            <div className='flex gap-2'>
+            <p className='text-xs text-slate-500 mt-1'>Taxes included. Free shipping on orders over {currency}1000.</p>
+          </div>
+
+          {/* Description Snippet */}
+          <p className='text-xs sm:text-sm text-slate-600 leading-relaxed font-medium'>
+            {productData.description}
+          </p>
+
+          {/* Size Selector */}
+          <div className='space-y-3 pt-4 border-t border-slate-100'>
+            <div className="flex justify-between items-center text-xs font-heading font-bold text-slate-900 tracking-wider uppercase">
+              <span>SELECT SIZE</span>
+              <span className="text-slate-400 font-normal cursor-pointer hover:underline text-[11px]">Size Guide</span>
+            </div>
+
+            <div className='flex flex-wrap gap-2.5'>
               {productData.sizes.map((item, index) => (
-                <button onClick={() => setSize(item)} className={`border py-2 px-4 bg-gray-100 ${item === size ? 'border-orange-500' : ''}`} key={index} > {item}</button>
+                <button 
+                  key={index}
+                  onClick={() => setSize(item)} 
+                  className={`min-w-[48px] py-2.5 px-4 rounded-full font-heading text-xs font-bold transition-all cursor-pointer select-none ${
+                    item === size 
+                      ? 'bg-slate-950 text-white shadow-md shadow-slate-950/20 scale-105' 
+                      : 'bg-slate-50 text-slate-800 border border-slate-200 hover:border-slate-400'
+                  }`}
+                > 
+                  {item}
+                </button>
               ))}
             </div>
           </div>
-          <button className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700' onClick={() => addToCart(productData._id, size)}>ADD TO CART</button>
-          <hr className='mt-8 sm:w-4/5' />
-          <div className='text-sm text-gray-500 mt-5 flex flex-col gap-1'>
-            <p>100% Original product.</p>
-            <p>Cash on delivery is available on this product.</p>
-            <p>Easy return and exchange policy within 7 days</p>
+
+          {/* Add to Cart CTA */}
+          <div className="pt-4">
+            <button 
+              onClick={() => addToCart(productData._id, size)}
+              className='w-full sm:w-auto py-4 px-10 rounded-full bg-slate-950 text-white hover:bg-orange-500 font-heading font-extrabold text-sm tracking-wider uppercase transition-all duration-300 shadow-xl cursor-pointer flex items-center justify-center gap-3 hover:scale-[1.01] active:scale-[0.98]'
+            >
+              <ShoppingBag className="w-4 h-4" />
+              ADD TO CART
+            </button>
           </div>
+
+          {/* Value Props & Guarantee */}
+          <div className='pt-6 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-3 text-[11px] font-medium text-slate-600'>
+            <div className="flex items-center gap-2 bg-slate-50/80 p-3 rounded-xl border border-slate-100">
+              <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>100% Original</span>
+            </div>
+            <div className="flex items-center gap-2 bg-slate-50/80 p-3 rounded-xl border border-slate-100">
+              <Truck className="w-4 h-4 text-indigo-600 shrink-0" />
+              <span>Cash on Delivery</span>
+            </div>
+            <div className="flex items-center gap-2 bg-slate-50/80 p-3 rounded-xl border border-slate-100">
+              <RefreshCw className="w-4 h-4 text-orange-500 shrink-0" />
+              <span>7 Days Return</span>
+            </div>
+          </div>
+
         </div>
       </div>
-      {/* ----------------- Description & Review Section ---------------- */}
-      <div className='mt-20 animate-fade-in group/desc'>
-        <div className='flex gap-2 mb-[-1px] relative z-10'>
-          <p className='border-t-2 border-l-2 border-r-2 border-indigo-200 bg-white px-8 py-4 text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-500 rounded-t-2xl shadow-[0_-5px_15px_-5px_rgba(99,102,241,0.2)] cursor-pointer'>
+
+      {/* Description & Review Tabs */}
+      <div className='space-y-4'>
+        <div className='flex gap-3 border-b border-slate-200 pb-px'>
+          <button 
+            onClick={() => setActiveTab('description')}
+            className={`pb-3 text-xs sm:text-sm font-heading font-extrabold tracking-wider uppercase transition-colors cursor-pointer relative ${
+              activeTab === 'description' ? 'text-slate-950' : 'text-slate-400 hover:text-slate-600'
+            }`}
+          >
             Description
-          </p>
-          <p className='border border-slate-200 bg-slate-50 px-8 py-4 text-sm font-medium text-slate-500 hover:text-indigo-500 transition-colors cursor-pointer rounded-t-2xl hover:bg-white'>
-            Review (122)
-          </p>
+            {activeTab === 'description' && (
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-500 rounded-full" />
+            )}
+          </button>
+          
+          <button 
+            onClick={() => setActiveTab('reviews')}
+            className={`pb-3 text-xs sm:text-sm font-heading font-extrabold tracking-wider uppercase transition-colors cursor-pointer relative ${
+              activeTab === 'reviews' ? 'text-slate-950' : 'text-slate-400 hover:text-slate-600'
+            }`}
+          >
+            Reviews (122)
+            {activeTab === 'reviews' && (
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-500 rounded-full" />
+            )}
+          </button>
         </div>
-        <div className='flex flex-col gap-5 border border-indigo-200 px-8 py-10 text-sm text-slate-600 rounded-b-2xl rounded-tr-2xl shadow-[0_10px_30px_-10px_rgba(236,72,153,0.15)] bg-white relative overflow-hidden'>
-          <div className='absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-pink-100 to-transparent opacity-50 rounded-bl-full pointer-events-none'></div>
-          <p className='leading-relaxed relative z-10 text-base'>
-            An e-commerce website is an online platform that facilitates the buying and selling of products or services over the internet. It serves as a virtual marketplace where businesses and individuals can showcase their products, interact with customers, and conduct transactions without the need for a physical presence. E-commerce websites have gained immense popularity due to their convenience, accessibility, and the global reach they offer.
-          </p>
-          <p className='leading-relaxed relative z-10 text-base'>
-            E-commerce websites typically display products or services along with detailed descriptions, images, prices, and any available variations (e.g., sizes, colors). Each product usually has its own dedicated page with relevant information.
-          </p>
+
+        <div className='border border-slate-200/80 p-6 sm:p-8 rounded-2xl bg-white shadow-xs text-xs sm:text-sm text-slate-600 leading-relaxed space-y-4 font-medium'>
+          {activeTab === 'description' ? (
+            <>
+              <p>
+                Flipz delivers premium fashion engineered with luxury editorial aesthetics. Each piece undergoes meticulous quality inspections using high-grade fabrics designed for comfort, durability, and contemporary urban style.
+              </p>
+              <p>
+                Whether exploring official seasonal collections or creator community drops, every garment reflects modern craftsmanship tailored for everyday wearability.
+              </p>
+            </>
+          ) : (
+            <div className="space-y-4">
+              <div className="border-b border-slate-100 pb-3">
+                <div className="flex justify-between items-center text-xs font-bold text-slate-900">
+                  <span>Alex M.</span>
+                  <span className="text-slate-400 font-mono-tag">2 days ago</span>
+                </div>
+                <p className="text-xs text-slate-500 mt-1">Exceptional quality and fit. The material feels ultra premium!</p>
+              </div>
+              <div>
+                <div className="flex justify-between items-center text-xs font-bold text-slate-900">
+                  <span>Sarah K.</span>
+                  <span className="text-slate-400 font-mono-tag">1 week ago</span>
+                </div>
+                <p className="text-xs text-slate-500 mt-1">Super fast shipping and packaging was top notch.</p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-      {/*  ---------------- display related products ----------------*/}
+
+      {/* Related Products */}
       <RelatedProduct category={productData.category} subCategory={productData.subCategory} />
     </div>
-  ) : <div className='opacity-0'></div>
+  ) : <div className='py-20 text-center text-slate-400 font-mono-tag text-xs'>Loading product details...</div>
 }
 
 export default Product

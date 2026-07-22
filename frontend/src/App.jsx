@@ -1,5 +1,5 @@
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import Collection from './pages/Collection'
 import About from './pages/About'
@@ -16,29 +16,44 @@ import Verify from './pages/verify'
 import MyProfile from './pages/MyProfile'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+
+// Automatic Scroll To Top Component on Route Navigation
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }, [pathname]);
+
+  return null;
+}
 
 const App = () => {
   return (
     <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
+      <ScrollToTop />
       <ToastContainer autoClose={1500} />
       <Navbar/>
       <SearchBar/>
       <Routes>
         <Route path='/' element={<Home/>} />
-         <Route path='/collection' element={<Collection/>} />
-          <Route path='/about' element={<About/>} />
-           <Route path='/contact' element={<Contact/>} />
-            <Route path='/product/:productId' element={<Product/>} />
-             <Route path='/cart' element={<Cart/>} />
-              <Route path='/login' element={<Login/>} />
-               <Route path='/place-order' element={<PlaceOrder/>} />
-                <Route path='/Orders' element={<Orders/>} />
-                 <Route path='/verify' element={<Verify/>} /> 
-                 <Route path='/myprofile' element={<MyProfile/>} /> 
-                 <Route path='/forgot-password' element={<ForgotPassword/>} /> 
-                 <Route path='/reset-password/:token' element={<ResetPassword/>} /> 
-                
+        <Route path='/collection' element={<Collection/>} />
+        <Route path='/about' element={<About/>} />
+        <Route path='/contact' element={<Contact/>} />
+        <Route path='/product/:productId' element={<Product/>} />
+        <Route path='/cart' element={<Cart/>} />
+        <Route path='/login' element={<Login/>} />
+        <Route path='/place-order' element={<PlaceOrder/>} />
+        <Route path='/Orders' element={<Orders/>} />
+        <Route path='/verify' element={<Verify/>} /> 
+        <Route path='/myprofile' element={<MyProfile/>} /> 
+        <Route path='/forgot-password' element={<ForgotPassword/>} /> 
+        <Route path='/reset-password/:token' element={<ResetPassword/>} /> 
       </Routes>
       <Footer/>
     </div>

@@ -13,7 +13,7 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isValidToken, setIsValidToken] = useState(null); // null = loading, true = valid, false = invalid
+  const [isValidToken, setIsValidToken] = useState(null);
 
   useEffect(() => {
     const checkTokenValidity = async () => {
@@ -33,7 +33,6 @@ const ResetPassword = () => {
     }
   }, [token, backendUrl]);
 
-  // Password strength checks (matches Signup logic)
   const hasUppercase = /[A-Z]/.test(password);
   const hasLowercase = /[a-z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
@@ -78,34 +77,34 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 text-left animate-fade-in">
-      <div className="max-w-md w-full space-y-8 bg-white border border-slate-200/60 p-8 rounded-3xl shadow-xl shadow-slate-100/50">
+    <div className="min-h-[70vh] flex items-center justify-center py-12 px-4 font-sans-editorial animate-fade-in text-left">
+      <div className="max-w-md w-full space-y-6 bg-white border border-slate-200/80 p-8 rounded-2xl shadow-xs">
         
         {isValidToken === null && (
-          <div className="flex flex-col items-center justify-center py-12 gap-4">
-            <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-500"></div>
-            <p className="text-slate-400 text-xs font-semibold uppercase tracking-wider">Verifying secure token...</p>
+          <div className="flex flex-col items-center justify-center py-12 gap-3">
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-orange-500 border-t-transparent"></div>
+            <p className="text-slate-400 text-xs font-mono-tag uppercase tracking-wider">VERIFYING TOKEN...</p>
           </div>
         )}
 
         {isValidToken === false && (
           <div className="text-center py-4 space-y-6">
-            <div className="w-16 h-16 bg-rose-50 border border-rose-100 rounded-full flex items-center justify-center text-rose-500 mx-auto mb-2">
+            <div className="w-14 h-14 bg-rose-50 border border-rose-100 rounded-full flex items-center justify-center text-rose-500 mx-auto mb-2">
               <XCircle className="w-8 h-8" />
             </div>
             
-            <div className="space-y-2">
-              <h2 className="text-2xl font-black text-slate-800 tracking-tight">Link Expired</h2>
-              <p className="text-xs text-slate-400 font-medium leading-relaxed max-w-xs mx-auto">
-                This password recovery link has already been used or has expired. Please request a new recovery link.
+            <div className="space-y-1.5">
+              <h2 className="text-2xl font-heading font-extrabold text-slate-950 uppercase tracking-wider">LINK EXPIRED</h2>
+              <p className="text-xs text-slate-500 max-w-xs mx-auto leading-relaxed">
+                This password recovery link has already been used or has expired.
               </p>
             </div>
 
             <button
               onClick={() => navigate('/forgot-password')}
-              className="w-full py-3 bg-black hover:opacity-90 active:scale-95 text-white font-medium rounded-xl text-sm transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              className="w-full py-4 rounded-full bg-slate-950 text-white hover:bg-orange-500 font-heading font-extrabold text-xs tracking-wider uppercase transition-all duration-300 shadow-xl cursor-pointer flex items-center justify-center gap-1.5"
             >
-              <ArrowLeft size={14} /> Request New Link
+              <ArrowLeft size={14} /> REQUEST NEW LINK
             </button>
           </div>
         )}
@@ -113,22 +112,22 @@ const ResetPassword = () => {
         {isValidToken === true && (
           <>
             {/* Header */}
-            <div className="text-center">
-              <div className="w-12 h-12 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center justify-center text-indigo-500 mx-auto mb-4">
+            <div className="text-center space-y-1.5 pb-2 border-b border-slate-100">
+              <div className="w-12 h-12 bg-orange-50 border border-orange-100 rounded-2xl flex items-center justify-center text-orange-500 mx-auto mb-3">
                 <Lock className="w-6 h-6" />
               </div>
-              <h2 className="text-2xl font-black text-slate-800 tracking-tight">Reset Password</h2>
-              <p className="mt-2 text-xs text-slate-400 font-medium leading-relaxed max-w-xs mx-auto text-center">
-                Create a new password that is secure and meets strength requirements.
+              <h2 className="text-2xl font-heading font-extrabold text-slate-950 uppercase tracking-wider">RESET PASSWORD</h2>
+              <p className="text-xs text-slate-500 max-w-xs mx-auto leading-relaxed">
+                Create a new password that meets security requirements.
               </p>
             </div>
 
             {/* Form */}
-            <form onSubmit={onSubmitHandler} className="mt-6 space-y-5">
+            <form onSubmit={onSubmitHandler} className="space-y-4">
               
               {/* New Password */}
-              <div className="relative">
-                <label className="text-xs font-bold text-slate-600 block mb-1.5 uppercase tracking-wider">New Password</label>
+              <div>
+                <label className="text-xs font-heading font-bold text-slate-900 block mb-1.5 uppercase">New Password</label>
                 <div className="relative">
                   <input 
                     type={showPassword ? "text" : "password"} 
@@ -136,15 +135,13 @@ const ResetPassword = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     placeholder="••••••••"
-                    className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-indigo-500 focus:bg-white transition-all text-sm text-slate-800"
+                    className="w-full pl-10 pr-10 py-3.5 bg-white border border-slate-200/90 rounded-xl outline-none focus:border-orange-500 transition-all text-xs sm:text-sm text-slate-900 shadow-xs"
                   />
-                  <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
-                    <KeyRound size={16} />
-                  </div>
+                  <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 focus:outline-none cursor-pointer"
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 cursor-pointer"
                   >
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
@@ -153,7 +150,7 @@ const ResetPassword = () => {
 
               {/* Confirm Password */}
               <div>
-                <label className="text-xs font-bold text-slate-600 block mb-1.5 uppercase tracking-wider">Confirm New Password</label>
+                <label className="text-xs font-heading font-bold text-slate-900 block mb-1.5 uppercase">Confirm New Password</label>
                 <div className="relative">
                   <input 
                     type={showPassword ? "text" : "password"} 
@@ -161,41 +158,39 @@ const ResetPassword = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                     placeholder="••••••••"
-                    className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-indigo-500 focus:bg-white transition-all text-sm text-slate-800"
+                    className="w-full pl-10 pr-10 py-3.5 bg-white border border-slate-200/90 rounded-xl outline-none focus:border-orange-500 transition-all text-xs sm:text-sm text-slate-900 shadow-xs"
                   />
-                  <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
-                    <KeyRound size={16} />
-                  </div>
+                  <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 </div>
               </div>
 
               {/* Password Strength Card */}
               {password.length > 0 && (
-                <div className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs text-left space-y-2 animate-fade-in shadow-sm shadow-slate-100 text-slate-500">
+                <div className="bg-slate-50 border border-slate-200/60 rounded-xl p-3.5 text-xs text-left space-y-2 animate-fade-in text-slate-500">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="font-bold text-slate-700">Password Strength:</span>
-                    <span className={`font-black ${strength.text} uppercase tracking-wider`}>{strength.label}</span>
+                    <span className="font-heading font-bold text-slate-800 text-[11px] uppercase">Strength:</span>
+                    <span className={`font-mono-tag font-bold ${strength.text} text-[10px] uppercase`}>{strength.label}</span>
                   </div>
                   
                   <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
                     <div className={`h-full rounded-full transition-all duration-300 ${strength.color}`} style={{ width: `${(strengthScore / 5) * 100}%` }}></div>
                   </div>
                   
-                  <div className="grid grid-cols-1 gap-1 pt-1">
-                    <div className={`flex items-center gap-1.5 font-medium transition-colors duration-200 ${hasLength ? 'text-emerald-600' : ''}`}>
-                      <span className="text-xs">{hasLength ? '✓' : '○'}</span> At least 8 characters
+                  <div className="grid grid-cols-1 gap-1 pt-1 text-[11px]">
+                    <div className={`flex items-center gap-1.5 font-medium ${hasLength ? 'text-emerald-600 font-bold' : ''}`}>
+                      <span>{hasLength ? '✓' : '○'}</span> At least 8 characters
                     </div>
-                    <div className={`flex items-center gap-1.5 font-medium transition-colors duration-200 ${hasUppercase ? 'text-emerald-600' : ''}`}>
-                      <span className="text-xs">{hasUppercase ? '✓' : '○'}</span> Uppercase letter (A-Z)
+                    <div className={`flex items-center gap-1.5 font-medium ${hasUppercase ? 'text-emerald-600 font-bold' : ''}`}>
+                      <span>{hasUppercase ? '✓' : '○'}</span> Uppercase letter (A-Z)
                     </div>
-                    <div className={`flex items-center gap-1.5 font-medium transition-colors duration-200 ${hasLowercase ? 'text-emerald-600' : ''}`}>
-                      <span className="text-xs">{hasLowercase ? '✓' : '○'}</span> Lowercase letter (a-z)
+                    <div className={`flex items-center gap-1.5 font-medium ${hasLowercase ? 'text-emerald-600 font-bold' : ''}`}>
+                      <span>{hasLowercase ? '✓' : '○'}</span> Lowercase letter (a-z)
                     </div>
-                    <div className={`flex items-center gap-1.5 font-medium transition-colors duration-200 ${hasNumber ? 'text-emerald-600' : ''}`}>
-                      <span className="text-xs">{hasNumber ? '✓' : '○'}</span> Numeric character (0-9)
+                    <div className={`flex items-center gap-1.5 font-medium ${hasNumber ? 'text-emerald-600 font-bold' : ''}`}>
+                      <span>{hasNumber ? '✓' : '○'}</span> Numeric character (0-9)
                     </div>
-                    <div className={`flex items-center gap-1.5 font-medium transition-colors duration-200 ${hasSpecial ? 'text-emerald-600' : ''}`}>
-                      <span className="text-xs">{hasSpecial ? '✓' : '○'}</span> Special symbol (!@#$%^&*)
+                    <div className={`flex items-center gap-1.5 font-medium ${hasSpecial ? 'text-emerald-600 font-bold' : ''}`}>
+                      <span>{hasSpecial ? '✓' : '○'}</span> Special symbol (!@#$%^&*)
                     </div>
                   </div>
                 </div>
@@ -204,9 +199,10 @@ const ResetPassword = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 bg-black hover:opacity-90 active:scale-95 text-white font-medium rounded-xl text-sm transition-all cursor-pointer flex items-center justify-center gap-1.5 disabled:bg-slate-350 disabled:active:scale-100"
+                className="w-full py-4 rounded-full bg-slate-950 text-white hover:bg-orange-500 font-heading font-extrabold text-xs tracking-wider uppercase transition-all duration-300 shadow-xl cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                {loading ? "Updating Password..." : "Update Password"} <ArrowRight size={14} />
+                <span>{loading ? "UPDATING..." : "UPDATE PASSWORD"}</span>
+                <ArrowRight size={14} />
               </button>
             </form>
           </>

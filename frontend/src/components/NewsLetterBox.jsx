@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Mail, Sparkles } from 'lucide-react'
 import { toast } from 'react-toastify'
 
 const NewsLetterBox = () => {
@@ -12,35 +11,35 @@ const NewsLetterBox = () => {
   }
 
   return (
-    <div className='my-24 bg-glass border border-white/5 rounded-[28px] p-8 md:p-12 text-center max-w-4xl mx-auto relative overflow-hidden shadow-2xl'>
-      <div className='absolute -left-20 -top-20 w-48 h-48 bg-accent/10 rounded-full blur-2xl pointer-events-none'></div>
-      <div className='absolute -right-20 -bottom-20 w-48 h-48 bg-accent-cyan/10 rounded-full blur-2xl pointer-events-none'></div>
+    <div className='my-16 bg-slate-950 text-white p-8 sm:p-12 md:p-16 text-center max-w-4xl mx-auto rounded-sm relative overflow-hidden shadow-xl font-sans-editorial'>
+      {/* Background Subtle Accent */}
+      <div className='absolute top-0 right-0 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl pointer-events-none'></div>
       
-      <div className='relative z-10'>
-        <div className='inline-flex items-center gap-1.5 bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full mb-6'>
-          <Mail className='w-3.5 h-3.5 text-accent-cyan' />
-          <span className='text-[10px] font-bold text-gray-300 uppercase tracking-widest font-heading'>VIP newsletter</span>
+      <div className='relative z-10 space-y-4'>
+        <div className='inline-flex items-center gap-1.5 bg-white/10 border border-white/15 px-3 py-1 rounded-sm'>
+          <span className="text-orange-500 font-bold text-xs">✦</span>
+          <span className='text-[9px] font-bold text-slate-300 uppercase tracking-[0.25em]'>VIP Editorial Circle</span>
         </div>
 
-        <h2 className='text-3xl md:text-4xl font-heading font-extrabold text-white tracking-tight'>
-          Subscribe for Early Drops
+        <h2 className='text-2xl sm:text-4xl font-editorial font-medium text-white tracking-tight'>
+          Subscribe For Early Drops
         </h2>
-        <p className='text-gray-400 mt-3 max-w-lg mx-auto font-body text-xs md:text-sm leading-relaxed'>
-          Join our streetwear circle. Get notified of exclusive limited-edition creator collections and flash royalty events before they sell out.
+        <p className='text-slate-400 max-w-md mx-auto text-xs sm:text-sm font-medium leading-relaxed tracking-wide'>
+          Join our global fashion circle. Receive exclusive alerts on limited-edition creator drops and private editorial releases.
         </p>
 
-        <form onSubmit={onSubmitHandler} className='w-full sm:max-w-md flex flex-col sm:flex-row items-center gap-3 mx-auto mt-8 p-1.5 border border-white/10 rounded-2xl bg-black/40 focus-within:border-accent transition-all duration-300'>
+        <form onSubmit={onSubmitHandler} className='w-full sm:max-w-md flex flex-col sm:flex-row items-center gap-2 mx-auto pt-4'>
           <input 
-            className="w-full sm:flex-1 outline-none text-white bg-transparent py-3 px-3 text-xs md:text-sm font-body font-medium" 
+            className="w-full sm:flex-1 outline-none text-slate-900 bg-white py-3.5 px-4 text-xs font-semibold rounded-sm tracking-wide placeholder:text-slate-400" 
             type='email' 
-            placeholder='Enter your email address' 
+            placeholder='Enter your email address...' 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required 
           />
           <button 
             type='submit' 
-            className='w-full sm:w-auto bg-white text-black hover:bg-accent-cyan hover:text-black font-heading font-bold text-xs py-3 px-6 rounded-xl transition-all cursor-pointer shadow-lg'
+            className='w-full sm:w-auto bg-orange-500 text-white hover:bg-orange-600 font-bold text-[10px] tracking-[0.2em] uppercase py-3.5 px-6 rounded-sm transition-colors cursor-pointer shadow-md'
           >
             Subscribe
           </button>
