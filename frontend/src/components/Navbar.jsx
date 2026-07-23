@@ -28,7 +28,12 @@ const Navbar = () => {
       </div>
 
       {/* Center Logo - Brand Text */}
-      <Link to="/" className="flex items-center group cursor-pointer ml-4 sm:ml-8">
+      <Link to="/" className="flex items-center gap-2.5 group cursor-pointer ml-4 sm:ml-8">
+        <img 
+          src={assets.logo} 
+          alt="Flipz Logo" 
+          className="h-8 w-8 object-contain opacity-90 group-hover:scale-110 transition-transform duration-300"
+        />
         <span className="font-heading text-xl sm:text-2xl font-extrabold text-slate-900 tracking-[0.18em] uppercase select-none">
           FLIPZ
         </span>
@@ -82,9 +87,16 @@ const Navbar = () => {
         <div className='flex flex-col h-full justify-between p-8 font-sans-editorial'>
           <div>
             <div className="flex justify-between items-center pb-8 border-b border-slate-900">
-              <span className="font-heading font-extrabold text-xl tracking-[0.15em] text-white uppercase select-none">
-                FLIPZ
-              </span>
+              <div className="flex items-center gap-2.5">
+                <img 
+                  src={assets.logo} 
+                  alt="Flipz Logo" 
+                  className="h-7 w-7 object-contain brightness-0 invert opacity-90"
+                />
+                <span className="font-heading font-extrabold text-xl tracking-[0.15em] text-white uppercase select-none">
+                  FLIPZ
+                </span>
+              </div>
               <button 
                 onClick={() => setVisible(false)} 
                 className="w-8 h-8 rounded-full border border-slate-800 flex items-center justify-center text-white font-bold hover:bg-slate-900 transition-all cursor-pointer"

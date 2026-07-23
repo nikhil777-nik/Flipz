@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { assets } from "../assets/assets";
 
 const Navbar = ({ logout }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -29,6 +30,11 @@ const Navbar = ({ logout }) => {
     >
       {/* Left — Brand */}
       <div className="flex items-center gap-3">
+        <img 
+          src={assets.logo} 
+          alt="Flipz Logo" 
+          className="h-8 w-8 object-contain opacity-90"
+        />
         <span className="font-heading font-extrabold text-xl text-slate-950 tracking-tight uppercase select-none">
           Flipz<span className="text-orange-500">.</span>
         </span>
